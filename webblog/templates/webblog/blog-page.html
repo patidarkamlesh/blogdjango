@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="w3-col l8 s12">
+    <div class="w3-card-4 w3-margin w3-white">
+        <img src="{{ blog.blog_image.url }}" alt="Nature" style="width:100%">
+        <div class="w3-container">
+            <h3><b>{{ blog.blog_title|upper }}</b></h3>
+            <h5>{{ blog.author.first_name }} {{ blog.author.last_name }}, <span
+                    class="w3-opacity">{{ blog.pub_date }}</span></h5>
+        </div>
+    <div class="w3-container">
+      <p>{{ blog.blog_description }}</p>
+    </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block sidebar %}
+<!-- Introduction menu -->
+<div class="w3-col l4">
+  <!-- About Card -->
+  {% block about %}
+  <div class="w3-card w3-margin w3-margin-top">
+    <img src="{{ blog.author.author_image.url }}" alt="Author Image"  style="width:100%">
+    <div class="w3-container w3-white">
+      <h4><b>About {{ blog.author.first_name }} {{ blog.author.last_name }}</b></h4>
+      <p>{{ blog.author.about_me }}</p>
+    </div>
+  </div><hr>
+  {% endblock %}
+  {% block other %}
+  <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>Other Posts</h4>
+    </div>
+    <ul class="w3-ul w3-hoverable w3-white">
+      {% for otherblog in otherblogs %}
+      <a href="{% url 'blog' otherblog.id %}"><li class="w3-padding-16">
+        <img src="{{ otherblog.blog_image.url }}" alt="{{ otherblog.blog_title }}" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large">{{ otherblog.blog_title }}</span><br>
+        <span>By {{ otherblog.author.first_name }} {{ otherblog.author.last_name }}</span><br>
+        <span>{{ otherblog.blog_description|truncatechars:20 }}</span>
+      </li></a>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <hr>
+  {% endblock %}
+<!-- END Introduction Menu -->
+</div>
+{% endblock %}
